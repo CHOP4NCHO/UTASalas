@@ -11,9 +11,9 @@ activityCompose = "1.8.0"
 composeBom = "2024.09.00"
 opencvAndroid = "4.12.0"
 tensorflowLite = "2.17.0"
-tensorflowLiteGpu = "2.9.0"
-tensorflowLiteGpuDelegatePlugin = "0.4.0"
-tensorflowLiteTaskVisionVersion = "0.4.3"
+tensorflowLiteGpu = "2.17.0"
+tensorflowLiteGpuDelegatePlugin = "0.4.4"
+tensorflowLiteTaskVisionVersion = "0.4.4"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraxVersion" }
@@ -36,11 +36,11 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-opencv-android = { module = "org.opencv:opencv-android", version.ref = "opencvAndroid" }
+opencv-android = { module = "org.opencv:opencv", version.ref = "opencvAndroid" }
 tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
 tensorflow-lite-gpu = { module = "org.tensorflow:tensorflow-lite-gpu", version.ref = "tensorflowLiteGpu" }
-tensorflow-lite-gpu-delegate-plugin = { module = "org.tensorflow:tensorflow-lite-gpu-delegate-plugin", version.ref = "tensorflowLiteGpuDelegatePlugin" }
-tensorflow-lite-task-vision = { module = "org.tensorflow:tensorflow-lite-task-vision", version.ref = "tensorflowLiteTaskVisionVersion" }
+tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", version = "0.4.3" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -64,12 +64,10 @@ dependencies {
     implementation(libs.androidx.camera.video)
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions)
-
-    implementation(libs.tensorflow.lite.task.vision)
-    implementation(libs.tensorflow.lite.gpu.delegate.plugin)
-    implementation(libs.tensorflow.lite.gpu)
-
-    implementation(libs.tensorflow.lite)
+//
+    //api(libs.tensorflow.lite.gpu)
+    //api(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.support)
     implementation(libs.opencv.android)
 // o la más reciente
 
