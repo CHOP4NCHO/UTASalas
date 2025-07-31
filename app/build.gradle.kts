@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.chopancho.utasalas"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.chopancho.utasalas"
-        minSdk = 34
-        targetSdk = 36
+        minSdk = 31
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -64,11 +64,10 @@ dependencies {
     implementation(libs.androidx.camera.video)
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions)
-//
-    //api(libs.tensorflow.lite.gpu)
-    //api(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.support)
-    implementation(libs.opencv.android)
+
+
+    implementation(libs.text.recognition)
+    implementation(libs.accompanist.permissions)
 // o la más reciente
 
 }
