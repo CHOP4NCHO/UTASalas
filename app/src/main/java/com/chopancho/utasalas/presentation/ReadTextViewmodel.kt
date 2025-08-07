@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.chopancho.utasalas.domain.RoomInfo
 import com.chopancho.utasalas.domain.RoomRepository
-import com.chopancho.utasalas.domain.validNames
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -22,14 +21,15 @@ class ReadTextViewmodel(
 
 
 
+
     fun getFirstRoomName(rawTextString: String) {
-        val availableRoomNames = validNames
+        val availableRoomNames = roomRepository.getRoomNames()
         Log.i("SALAS", availableRoomNames.toString())
         availableRoomNames.forEach {
-            if (rawTextString.contains(it, false)) {
+            if (rawTextString.lowercase().contains(it, false)) {
                 Log.i("SALAS", "HOLA, SI HAY ALGO: $it")
-                _currentRoomName.value = it
-                _currentRoomInfo.value = roomRepository.getRoomInfo(it)
+                _currentRoomName.value = it.lowercase()
+                _currentRoomInfo.value = roomRepository.getRoomInfo(it.lowercase())
             }
         }
     }
