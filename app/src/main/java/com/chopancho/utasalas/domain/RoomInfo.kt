@@ -9,8 +9,9 @@ data class RoomInfo(
 )
 
 data class ScheduleEntry(
-    val horaLabel: String,
-    val asignaturaLabel: String
+    val time: String,
+    val className: String,
+    val dayIndex: Int = 0
 )
 
 

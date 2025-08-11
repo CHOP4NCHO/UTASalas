@@ -5,16 +5,12 @@ import android.graphics.Color
 import android.util.Size
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.camera.core.AspectRatio
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,16 +22,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -43,7 +36,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,10 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -243,7 +232,11 @@ fun RoomScheduleDialog(
     onDismiss: () -> Unit
 ) {
     if (roomInfo != null) {
+        val groupedSchedule = roomInfo.scheduleEntries.groupBy { it.dayIndex }
+        val days = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
+
         AlertDialog(
+            modifier = Modifier.fillMaxWidth(),
             onDismissRequest = onDismiss,
             confirmButton = {
                 TextButton(onClick = onDismiss) {
@@ -254,23 +247,36 @@ fun RoomScheduleDialog(
                 Text(text = "Horario de ${roomInfo.name.capitalized()}")
             },
             text = {
-                LazyColumn(
+                LazyRow(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(40.dp))
                         .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(40.dp))
                         .heightIn(max = 410.dp) // evita que crezca demasiado
+                        .widthIn(max = 600.dp)
                 ) {
-                    items(roomInfo.scheduleEntries) { entry ->
-                        ScheduleEntryItem(
-                            horaLabel = entry.horaLabel,
-                            asignaturaLabel = entry.asignaturaLabel
-                        )
+                    items(groupedSchedule.keys.sorted()) { dayIndex ->
+                        val dayName = days.getOrNull(dayIndex) ?: "Día Desconocido"
+                        LazyColumn {
+                            item {
+                                Text(
+                                    text = dayName,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp, start = 16.dp)
+                                )
+                                groupedSchedule[dayIndex]?.forEach { entry ->
+                                    ScheduleEntryItem(
+                                        horaLabel = entry.time,
+                                        asignaturaLabel = entry.className
+                                    )
+                                }
+                            }
+                        }
+
                     }
                 }
             }
         )
     }
-
 }
 @Composable
 fun ScheduleEntryItem(
